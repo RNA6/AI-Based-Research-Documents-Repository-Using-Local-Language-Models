@@ -70,9 +70,7 @@
 \section*{Abstract}
 \addcontentsline{toc}{section}{Abstract}
 
-Scientific research documents convey important data both in their written form and through various graphical features, such as intricate figures, tables, and charts. Yet most conventional \ac{RAG} systems focus mainly on text, leading to a substantial loss of the key information contained in these visual elements. Moreover, existing AI-based document processing systems place a great deal of reliance on cloud-based \ac{API}, thereby creating serious risks in the areas of data privacy, protection of intellectual property, and the general reliability of the system. To overcome these important limitations, this project presents a thorough and privacy-preserving solution that uses AI to create a local multi-modal repository of research documents. The system in question is intended to function completely offline, thus keeping sensitive academic and proprietary data secure while simultaneously carrying out a comprehensive analysis of both the text and the visual parts of scientific literature.\\
-
-In technical terms, the system functions by using deep layout-aware parsing and carries out separate extraction procedures for the textual and visual elements to maintain the original document structure. For the purpose of information retrieval, the architecture makes use of an advanced multi-modal method that combines hybrid text search-this involving both keyword matching and dense semantic analysis-with independent visual search operations, the two different streams being smoothly integrated by means of the \ac{RRF} algorithm. To produce responses the system uses a Vision‑Language Model that is hosted locally and fine‑tuned on scientific multi-modal datasets. This approach removes the need for any cloud services completely. The project contains three components. First, a functional web‑based repository makes document management easy. Second a powerful local AI processing pipeline guarantees offline operation. Third a thorough performance evaluation checks both retrieval and question‑answering accuracy. Finally, the project delivers an intelligent environment that allows researchers and educational institutions to query and understand complex scientific literature efficiently while keeping full control of their sensitive data.
+Scientific research documents convey important data both in their written form and through various graphical features, such as intricate figures, tables, and charts. Yet most conventional Retrieval Augmented Generation (RAG) systems focus mainly on text, leading to a substantial loss of the key information contained in these visual elements. Moreover, existing AI-based document processing systems place a great deal of reliance on cloud-based Application Programming Interface (API), thereby creating serious risks in the areas of data privacy, protection of intellectual property, and the general reliability of the system. To overcome these important limitations, this project presents a thorough and privacy-preserving solution that uses AI to create a local multi-modal repository of research documents. The system in question is intended to function completely offline, thus keeping sensitive academic and proprietary data secure while simultaneously carrying out a comprehensive analysis of both the text and the visual parts of scientific literature. In technical terms, the system functions by using deep layout-aware parsing and carries out separate extraction procedures for the textual and visual elements to maintain the original document structure. For the purpose of information retrieval, the architecture makes use of an advanced multi-modal method that combines hybrid text search-this involving both keyword matching and dense semantic analysis-with independent visual search operations, the two different streams being smoothly integrated by means of the Reciprocal Rank Fusion (RRF) algorithm. To produce responses, the system uses a Vision‑Language Model (VLM) that is hosted locally and fine‑tuned on scientific multi-modal datasets. This approach removes the need for any cloud services completely. The project contains three components. First, a functional web‑based repository makes document management easy. Second a powerful local AI processing pipeline guarantees offline operation. Third a thorough performance evaluation checks both retrieval and question‑answering accuracy. Finally, the project delivers an intelligent environment that allows researchers and educational institutions to query and understand complex scientific literature efficiently while keeping full control of their sensitive data.
 
 
 \vspace{4mm}
@@ -98,12 +96,16 @@ In technical terms, the system functions by using deep layout-aware parsing and 
 \addcontentsline{toc}{section}{List of Acronyms}
 
 \begin{acronym}[123456]  
-  \acro{LLMs}{Large Language Models}
-  \acro{VLMs}{Vision Language Models}
-  \acro{RAG}{Retrieval Augmented Generation} 
+  \acro{API}{Application Programming Interface} 
+  \acro{AI}{Artificial Intelligence}
+  \acro{BM25}{Best Matching 25}
   \acro{IR}{Information Retrieval} 
-  \acro{API}{Application Programming Interface}
+  \acro{LLM}{Large Language Model}
+  \acro{MDA}{Materials Database Agent}
+  \acro{OCR}{Optical Character Recognition}
+  \acro{RAG}{Retrieval Augmented Generation}
   \acro{RRF}{Reciprocal Rank Fusion}  
+  \acro{VLM}{Vision Language Model}
 \end{acronym}
 
 %% ----------------------------- Main Matter -----------------------------
@@ -117,7 +119,7 @@ Research documents contain valuable information in both textual and visual forms
 To address this limitation, our project aims to apply local multi-modal retrieval techniques that ensure visual content is considered in information retrieval, which will support a wider range of research document questions and improve the quality of generated results. To provide a clear overview of the project, we will start by discussing fundamental components relevant to the project followed by its core objectives. Then, we will explain the importance of the project, which will provide the context for the specific problem we want to address. The last aspect to be discussed in this section is the project boundaries and expected outcomes.
 
 \subsection{Background}
-Processing multi-modal documents requires specialized pipeline to enhance the efficiency of the use of recent technologies in this field. The pipeline mainly relies on four interconnected techniques that are fundamentally relevant to context search and answer generation, which are \ac{IR}, \ac{LLMs}, \ac{VLMs}, and Retrieval Augmented Generation (\ac{RAG}). 
+Processing multi-modal documents requires specialized pipeline to enhance the efficiency of the use of recent technologies in this field. The pipeline mainly relies on four interconnected techniques that are fundamentally relevant to context search and answer generation, which are \ac{IR}, \acp{LLM}, \acp{VLM}, and Retrieval Augmented Generation (\ac{RAG}). 
 
 \subsubsection{Information Retrieval}
 \subsubsection{Large Language Models}
@@ -134,19 +136,67 @@ Processing multi-modal documents requires specialized pipeline to enhance the ef
 \section{Literature Review}
 
 \section{Methodology}
+In this section, we will discuss our methodology by establishing a foundation for our selection of the methodology. We will begin by addressing the key challenges associated with methodologies used in previous studies. Then, we will propose a strategy for each challenge to overcome it. Next, we will justify our selection clearly to highlight the main aspects of our methodology, and we will explain how it may overcome the challenges previously explained. Finally, we will discuss the tools to be used to perform our methodology in the most efficient way.
 
 \subsection{Challenges and Proposed Strategies}
+Previous studies have implemented various techniques in evidence retrieval and search. However, each technique had its gaps, we went through them and selected the most relevant challenges to our project. This section will discuss each challenge and a proposed strategy to overcome it.
+
 \subsubsection{Challenge 1: Limited Retrieval of Textless Visual Information}
+VDocRAG \cite{Tanaka2025VDocRAGRG} uses supervised pre-training to align visual content and \ac{OCR}-extracted text data for document retrieval. This approach allows the model to effectively retrieve information from visually rich documents when the visual content contains text. However, the reliance on the alignment between visual content and \ac{OCR}-extracted text data limits the model’s ability to retrieve information from visuals that do not contain text. Moreover, the model is designed primarily for visually rich documents, which can degrade the performance of VDocRAG when dealing with text-heavy documents.\\
+
+\textbf{Proposed strategy:} To fix this issue, the system processes content independently without relying on text extracted through \ac{OCR}. Instead of using text to match visuals, it employs a special visual model called ColQwen2. This model examines image pixels directly and creates visual embeddings. That way, even if an image lacks text, the system can still find visual information based on what the image shows. 
+
 \subsubsection{Challenge 2: High Computational Cost}
+Doc-Researcher \cite{Dong2026DocResearcherAU} uses a deep research approach that increases computational costs. The deep research approach requires performing evidence retrieval and refinement iteratively until a predefined condition is met. During this process the system iteratively retrieves and evaluates evidence to maximize the sufficiency of the collected evidence for answering the user question. Therefore, multiple evidence retrieval and refinement iterations may be performed for each query. The iterative process can increase the overall computational costs and processing time, especially when dealing with large collection of complex multi-modal documents.\\ 
+
+\textbf{Proposed strategy:} To reduce computing demands, the system uses a simpler, non-iterative workflow. It processes the document in one pass-parsing, embedding, retrieving, and generating-without looping back multiple times for each query. By skipping repeated retrieval and refinement steps, the process becomes much faster and uses fewer resources while still providing good context for answering questions. 
+
 \subsubsection{Challenge 3: Limited Multi-Modal Information Extraction}
+The \ac{MDA} system \cite{Chandrasekhar2026MaterialDA} primarily processes the document into machine-readable content. The MDA system uses an extraction approach that is limited to textual information embedded in the document. Therefore, the system may not fully capture the scientific information represented in visual content, as its main process is the processing of captions and paragraphs relevant to images. As a result, important measurements and other scientific information contained within images may be lost or not fully captured, leading to incomplete representations of research documents, particularly when they contain essential scientific information embedded in images.\\
+
+\textbf{Proposed strategy:} To avoid losing details, the system employs a deep multi-modal parsing step with the MinerU library. Rather than just grabbing captions or nearby text, it extracts actual visual components such as graphs, charts, and figures. These are then analyzed using Qwen2.5-VL-7B-Instruct. This allows the system to grasp the meaning within images, leading to a complete and accurate representation of the document's content.
+
 \subsubsection{Challenge 4: Limitations in Context Retrieval}
+DOC GPT \cite{R2026DOCGA} uses static-size chunking when processing textual information. This type of chunking might potentially divide connected ideas into different chunks and could lead to limited context and missing complete information about the query. In addition, chunks may include two or more ideas that might be irrelevant to the intended query.
+\textbf{Proposed strategy:} To keep ideas connected and prevent context loss, the system replaces fixed-size text chunks with layout-aware chunking. It reads the document's structure and splits the text into meaningful units, such as paragraphs, sections, or blocks, based on how the document is organized. This ensures that each chunk retains coherent thoughts and does not mix unrelated parts.
+
 \subsubsection{Challenge 5: Limitations in Cross-Modal Retrieval}
+The Multimodal and Multilingual Offline \ac{RAG} System \cite{AlthafAhamed2026AMA} applies a reranking technique called RRF that combines the keyword and semantic searches for only document text chunks. However, the system cannot combine and rerank across multi-modal evidence. As a result, the system may struggle to combine relevant text and images with the user’s query. \\
+
+\textbf{Proposed strategy:} To improve cross-modal retrieval, the system adds a multi-modal hybrid retrieval stage. After searching for text and visuals, it generates two ranked lists-one for text chunks and another for images. Then, it applies the \ac{RRF} algorithm to combine both lists. This fusion occurs at retrieval time, merging text and image results into a single list. This helps the system gather multi-modal evidence to answer the user's questions more effectively.
+
 
 \subsection{Justifications of the Selected Approach}
-\subsubsection{Alternative Multi-Modal \ac{RAG} Pipeline}
-\subsubsection{Proposed Multi-Modal \ac{RAG} Pipeline}
+Based on the methodologies discussed in previous studies, we are proposing two pipelines to address challenges faced by previous research. Both pipelines support multi-modal \ac{RAG} development, which enhances local models’ ability to retrieve relevant information from both text and visual content in research documents. Each proposed pipeline uses a slightly different approach to process and retrieve relevant information. The pipelines are shown in Figure~\ref{fig:RAG-pipelines-representation} and explained as follows:\\ 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{RAG pipelines representation.png}
+\caption{Alternative and Proposed \acs{RAG} pipelines representation.}
+\label{fig:RAG-pipelines-representation}
+\end{figure}
+
+\subsubsection{Alternative Multi-Modal RAG Pipeline}
+The pipeline consists of four stages. First, multi-modal document parsing is the foundational stage in the pipeline. The document is preprocessed by extracting textual information, which includes \ac{OCR} extraction in the case of scanned documents. Second, the multi-modal document representation stage extracts visual information by using a \ac{VLM} that generates descriptions for figures and tables to create a multi-modal document representation. Moreover, the extracted information is divided into smaller chunks, which are converted into semantic embeddings and indexed locally for retrieval.\\
+
+Third, the hybrid retrieval stage is mainly a strategy for the information retrieval process. The hybrid retrieval strategy is a combination of \ac{BM25} keyword retrieval and dense semantic retrieval to enhance the accuracy of retrieving information from the research documents. Using \ac{BM25}, the relevant information is retrieved through keyword matching between the user’s query and the text available in storage. On the other hand, dense semantic retrieval processes the query and the chunks of documents into vectors and analyzes their similarity in meaning. The results from \ac{BM25} and dense semantic retrieval are then merged using the \ac{RRF} method. The most highly ranked chunks are chosen to be delivered to the local language model as contextual information.\\
+
+Finally, at the local generation stage, all information and evidence relevant to the question have been retrieved, ranked, and prepared for the final generation step. The local generation model can be executed locally using Ollama. Moreover, the model is provided with a prompt containing the user’s question and relevant \ac{RAG} context to be used in answer generation. The \ac{RAG} context consists of the top-ranked results of the hybrid retrieval output, including text chunks and visual descriptions. Therefore, the user’s question and the retrieved information shape the prompt, allowing the local \ac{LLM} to use the retrieved information as evidence when generating the answer.
+
+\subsubsection{Proposed Multi-Modal RAG Pipeline}
+The pipeline consists of four stages. First, deep multi-modal document parsing is the foundational stage that helps to understand the document structure and visual semantics. We have adopted the Doc-Researcher’s deep multi-modal document parsing \cite{Dong2026DocResearcherAU}, which specializes in multi-modal document analysis, performing a deep analysis of multi-modal documents and converting them into organized and searchable units while maintaining multi-modal semantics. It divides the page into independent areas, identifying and extracting structural elements such as tables and figures, while accurately retaining their spatial coordinates and their contextual relationships within the page. Second, the multi-modal document processing and indexing stage extracts visual information similar to the alternative multi-modal \ac{RAG} pipeline by using a \ac{VLM} that generates descriptions for figures and tables. Then, the extracted textual and visual information is processed and indexed locally for retrieval.\\
+
+Third, the hybrid multi-modal retrieval stage is the strategy used for the information retrieval process. It begins with a hybrid text retrieval strategy, which is a combination of \ac{BM25} keyword retrieval and dense semantic retrieval to enhance the accuracy of retrieving information from the research documents. In addition, hybrid multi-modal retrieval combines hybrid text retrieval results with visuals retrieved independently. The actual visuals are retrieved and ranked independently using a visual retrieval model, which allows the system to preserve visual information that may not be fully captured by textual descriptions. Consequently, we will have two independent ranked lists, one for text chunks and one for visuals. Then, retrieval-time multi-modal fusion is applied to combine the rank positions produced by the two independent retrieval systems by using \ac{RRF}. In that process each visual and its associated description are treated as a single retrieval item, and the ranked list consists of both visual identifier and its associated description, allowing the system to retrieve the original visual at the generation stage. The resulting list represents the final hybrid multi-modal retrieval output, which will be used to construct the final \ac{RAG} context.\\
+
+Finally, at the local generation stage, all information and evidence relevant to the question have been retrieved, ranked, and prepared for the final generation step. The local generation model is fine-tuned with the SciMDR dataset \cite{Chen2026SciMDRAS}. After fine-tuning, the local generation model can be executed locally using Ollama. Moreover, the model is provided with a prompt containing the user’s question and relevant \ac{RAG} context to be used in answer generation. The \ac{RAG} context consists of the top-ranked results of the final hybrid multi-modal retrieval output, including text chunks and figures with their associated descriptions. Therefore, the user’s question and the retrieved information shape the prompt, allowing the local \ac{VLM} to use the retrieved information with original figures as evidence when generating the answer.\\
+
+The proposed multi-modal \ac{RAG} pipeline is selected because it preserves the independence of textual and visual information during retrieval, and it only combines the results at the end of the retrieval process. Prepared context and original visual content are supplied to the local \ac{VLM} to generate the answers. On the other hand, the alternative multi-modal \ac{RAG} pipeline simplifies the retrieval by relying on the conversion of visual content into descriptions before retrieval without independently retrieving the actual visuals. Moreover, only textual information and visuals descriptions are supplied to the local \ac{LLM}. As a result, the alternative multi-modal \ac{RAG} pipeline may fail to retrieve visual content whose relevant information was not captured by the generated descriptions.
 
 \subsection{Discussion of Tools and Techniques to be Used}
+This project aims to integrate various technologies for document processing, visual understanding, search, and local language models to develop an \ac{AI}-based research documents database. The MinerU library \cite{Wang2024MinerUAO} will be used to perform layout-aware PDF parsing tasks, whereas PyMuPDF \cite{artifex2026pymupdf} will facilitate the handling of PDF and page-level tasks like extraction and rendering of pages. Tesseract \ac{OCR} \cite{Smith2007AnOO} will perform the task of extracting text from scanned pages or images. To process visual information (images, figures, etc.), Qwen2.5-VL-7B-Instruct \cite{Bai2025Qwen25VLTR} will be used to understand the information that cannot be comprehended using text extraction techniques alone. The use of visual information alongside textual content is also supported by multi-modal document-processing approaches presented in \cite{Tanaka2025VDocRAGRG} and \cite{Chandrasekhar2026MaterialDA}.\\
+
+To perform information retrieval, the semantic embedding of the meaning of the content in the documents will be created by BGE-M3 \cite{Chen2024M3EmbeddingMM} and stored/retrieved via ChromaDB \cite{huber2026chroma}. The \ac{BM25} algorithm \cite{Robertson2009ThePR} will also be used in conjunction with semantic search in the case of exact keyword matching. The ColQwen2 model \cite{Faysse2024ColPaliED} is used to retrieve visuals independently. The outputs of the text and visual searches will be merged and ranked using the \ac{RRF} algorithm \cite{Cormack2009ReciprocalRF}, which is an algorithm and not an independent software tool. Finally, the most relevant information along with original visuals obtained from the retrieval process will be used as the context for Qwen2.5-VL-7B-Instruct \cite{Bai2025Qwen25VLTR}, running locally on Ollama \cite{morgan2026ollama}, to generate output based on the research documents.
+
 
 \section{Project Requirements}
 \subsection{Functional Requirements}
@@ -155,14 +205,75 @@ Processing multi-modal documents requires specialized pipeline to enhance the ef
 \subsubsection{Software Requirements}
 
 \section{Project Timeline}
-Hello World! This project follows software engineering principles \cite{Gosmar2026MADPAM}.
-Similar AI-based solutions have been reported in recent studies \cite{Dong2026DocResearcherAU}.
-A comparable system design was presented in \cite{Smith2007AnOO}.
+This section represents the project milestones timeline. Each milestone is represented with a descriptive table and a Gantt chart. The separation of milestone timelines provides a clear overview of milestone scheduling and time distribution over tasks. Some factors have affected the selection of task durations. As a result, some tasks have a longer duration than others due to task complexity, exams, and assignments in other courses.
 
-Acronyms are expanded automatically on first use. 
-The proposed system exposes an API that applies
-AI and NLP techniques on a GPU, and every later mention of the API prints the
-short form only.
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{0.26\textwidth}| p{0.13\textwidth}| p{0.19\textwidth}| p{0.19\textwidth}| p{0.09\textwidth}|}
+\hline
+\textbf{Task} & \textbf{Assigned To} & \textbf{Start Date} & \textbf{End Date} & \textbf{Duration} \\
+\hline
+Milestone 1 & All Members & August 24, 2026 & October 29, 2026 & 67 days \\ 
+\hline
+Project Understanding & All Members & August 24, 2026 & September 5, 2026 & 10 days \\
+\hline
+Literature Review, Background, and Methodology & All Members & September 6, 2026 & September 30, 2026 & 25 days \\ 
+\hline
+Writing Introduction and Scope \& Deliverables & All Members & September 28, 2026 & October 7, 2026 & 10 days \\ 
+\hline
+Writing Project Requirements and Abstract & All Members & October 8, 2026 & October 12, 2026 & 5 days \\ 
+\hline
+Draft Submission to Supervisor and Review Feedback & All Members & October 13, 2026 & October 17, 2026 & 5 days \\ 
+\hline
+Milestone-1 Submission & All Members & October 18, 2026 & October 22, 2026 & 5 days \\ 
+\hline
+Milestone-1 Presentation & All Members & October 25, 2026 & October 29, 2026 & 5 days \\ 
+\hline
+\end{tabular}
+\caption{Milestone 1 Task Schedule}
+\label{tab:milestone1_schedule}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{Milestone 1 Gantt chart.jpg}
+\caption{Milestone 1 Gantt chart}
+\label{fig:milestone1_gannt_chart}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{0.26\textwidth}| p{0.13\textwidth}| p{0.19\textwidth}| p{0.19\textwidth}| p{0.09\textwidth}|}
+\hline
+\textbf{Task} & \textbf{Assigned To} & \textbf{Start Date} & \textbf{End Date} & \textbf{Duration} \\ 
+\hline
+Milestone 2 & All Members & October 25, 2026 & December 17, 2026 & 54 days \\ 
+\hline
+System Architecture and Diagrams Design & All Members & October 25, 2026 & November 10, 2026 & 17 days \\ 
+\hline
+Comparison of Alternative Solutions & All Members & November 11, 2026 & November 16, 2026 & 6 days \\ 
+\hline
+Details of Tools and Programming Languages & All Members & November 17, 2026 & November 25, 2026 & 9 days \\ 
+\hline
+Initial Results & All Members & November 26, 2026 & November 30, 2026 & 5 days \\ 
+\hline
+Draft Submission to Supervisor and Review Feedback & All Members & December 1, 2026 & December 5, 2026 & 5 days \\ 
+\hline
+Milestone-2 Submission & All Members & December 6, 2026 & December 10, 2026 & 5 days \\ 
+\hline
+Milestone-2 Presentation & All Members & December 13, 2026 & December 17, 2026 & 5 days \\ 
+\hline
+\end{tabular}
+\caption{Milestone 2 Task  Schedule}
+\label{tab:milestone2_schedule}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{Milestone 2 Gantt chart.jpg}
+\caption{Milestone 2 Gantt chart}
+\label{fig:milestone2_gannt_chart}
+\end{figure}
 
 %% ----------------------------- References -----------------------------
 \cleardoublepage
