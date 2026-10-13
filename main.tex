@@ -133,8 +133,10 @@ Processing multi-modal documents requires specialized pipeline to enhance the ef
 \subsubsection{Alignment with KFU Identity and Society Impact}
 \subsubsection{Expected Project Deliverables}
 
+\cleardoublepage
 \section{Literature Review}
 
+\cleardoublepage
 \section{Methodology}
 In this section, we will discuss our methodology by establishing a foundation for our selection of the methodology. We will begin by addressing the key challenges associated with methodologies used in previous studies. Then, we will propose a strategy for each challenge to overcome it. Next, we will justify our selection clearly to highlight the main aspects of our methodology, and we will explain how it may overcome the challenges previously explained. Finally, we will discuss the tools to be used to perform our methodology in the most efficient way.
 
@@ -197,13 +199,54 @@ This project aims to integrate various technologies for document processing, vis
 
 To perform information retrieval, the semantic embedding of the meaning of the content in the documents will be created by BGE-M3 \cite{Chen2024M3EmbeddingMM} and stored/retrieved via ChromaDB \cite{huber2026chroma}. The \ac{BM25} algorithm \cite{Robertson2009ThePR} will also be used in conjunction with semantic search in the case of exact keyword matching. The ColQwen2 model \cite{Faysse2024ColPaliED} is used to retrieve visuals independently. The outputs of the text and visual searches will be merged and ranked using the \ac{RRF} algorithm \cite{Cormack2009ReciprocalRF}, which is an algorithm and not an independent software tool. Finally, the most relevant information along with original visuals obtained from the retrieval process will be used as the context for Qwen2.5-VL-7B-Instruct \cite{Bai2025Qwen25VLTR}, running locally on Ollama \cite{morgan2026ollama}, to generate output based on the research documents.
 
-
+\cleardoublepage
 \section{Project Requirements}
-\subsection{Functional Requirements}
-\subsection{Non-Functional Requirements}
-\subsubsection{Hardware Requirements}
-\subsubsection{Software Requirements}
+Our project aims to accomplish several objectives; therefore, a clear overview of the project requirements will be presented in this section. The requirements are divided into two main parts. First, the functional requirements specify the system functions and what it should do. Second, the non-functional requirements describe the system constraints and qualities. In addition, software and hardware requirements are discussed to specify the resources needed to develop the system.
 
+\subsection{Functional Requirements}
+\begin{enumerate}
+  \item To support O1, the system shall allow users to upload and view research documents through the web-based interface.
+  \item To support O3 and O4, the system shall allow users to ask questions about research documents using natural language.
+  \item To support O2, the system shall process research documents locally without transferring document content to external models or tools running on external servers.
+  \item To support O2, the system shall process both textual and visual content within research documents, including figures, tables, charts, and diagrams .
+  \item To support O2, the system shall retrieve relevant textual and visual information independently from research documents based on users’ questions.
+  \item To support O3 and O4, the system shall combine the relevant textual and visual information retrieved from research documents to support answer generation.
+  \item To support O3, the system shall generate answers locally using a fine-tuned local language model. 
+\end{enumerate}
+
+\subsection{Non-Functional Requirements}
+\begin{enumerate}
+  \item Performance (O2, O4): The system shall perform document retrieval and respond to users' questions within 60 seconds for at least 80\% of test queries in the defined hardware environment.
+  \item Security and Privacy (O1, O2): The system shall process and store research documents locally and shall not send document content, retrieved information, or responses to external servers or \ac{AI} services in the cloud.
+  \item Usability (O1): The system shall offer an intuitive web-based interface, allowing users to upload, view, and manage research documents in order to achieve at least a 90\% success rate in performing tasks during usability testing.
+  \item Availability (O1, O4): The system shall be available at least 95\% of the time during planned testing sessions, provided the local server and necessary hardware are operational.
+  \item Retrieval Accuracy (O2): The system shall demonstrate at least 60\% retrieval accuracy for relevant textual and visual information from the research documents according to the selected evaluation dataset.
+  \item Question Answering Accuracy (O3, O4): The system shall demonstrate at least 65\% question answering accuracy using the fine-tuned local model and the developed multi-modal retrieval pipeline.
+  \item Reliability (O1, O4): The system shall successfully complete at least 95\% of all valid requests for document processing and question answering without any unexpected system failures.
+  \item Offline Operation (O2, O3): The system shall perform document processing, information retrieval, and answer generation without requiring an active internet connection after the necessary models and dependencies have been installed.
+\end{enumerate}
+
+\subsubsection{Hardware Requirements}
+\begin{enumerate}
+  \item Processor (O1, O2, O4): The system shall run on a computer featuring a modern multi-core processor, such as the Intel Core i7, AMD Ryzen 7, or a similar one, to ensure document processing, indexing, and general functioning of the system.
+  \item Graphics Processing Unit (O2, O3, O4): The system shall be provided with a suitable NVIDIA GPU with at least 24 GB of VRAM for fast visual document processing, multi-modal inference, and fine-tuning. Depending on the chosen fine-tuning strategy, additional GPU memory may be required.
+  \item Random Access Memory (O2, O3, O4): The system shall have no less than 32 GB of RAM to allow for the parallel operation of document processing libraries, information retrieval modules, and locally stored \ac{AI} models.
+  \item Storage (O1, O2, O3): The system shall have no less than 100 GB of SSD storage to store research documents, extracted data, vector databases, local \ac{AI} models, and associated files
+\end{enumerate}
+
+\subsubsection{Software Requirements}
+\begin{enumerate}
+  \item Programming Environment (O1-O4): The system shall use Python as the primary backend programming language to integrate document-processing libraries, retrieval techniques, and AI models.
+  \item Document Processing Tools (O2): The system shall use MinerU for layout-aware document parsing, PyMuPDF for PDF processing, and Tesseract \ac{OCR} for extracting text from scanned research documents. These tools support the extraction of textual and visual document elements.
+  \item Text Retrieval Tools (O2): The system shall use BGE-M3 for generating semantic embeddings, ChromaDB for storing and retrieving vectors, and \ac{BM25} for keyword retrieval, making it possible for the system to find relevant textual information.
+  \item Visual Retrieval Model (O2): The system shall use ColQwen2 to generate visual representations and independently retrieve relevant figures, charts, and other visual information from research documents.
+  \item Multi-modal Retrieval Integration (O2, O4): The system shall implement the \ac{RRF} algorithm to combine and rank retrieved textual and visual information, improving the relevance of the evidence supplied to the generation model.
+  \item Local \ac{VLM} (O3, O4): The system shall use Qwen2.5-VL-7B-Instruct to understand visual and textual evidence and generate answers based on retrieved research information. The model shall be adapted through fine-tuning to improve question-answering accuracy.
+  \item Local Model Execution (O3, O4): The system shall use Ollama to execute the compatible local \ac{VLM} model for response generation without relying on external cloud-based \ac{VLM} services.
+  \item Web Interface (O1, O4): The system shall implement a web interface that will enable users to engage with the research repository through the local backend and generate responses to their questions.
+\end{enumerate}
+
+\cleardoublepage
 \section{Project Timeline}
 This section represents the project milestones timeline. Each milestone is represented with a descriptive table and a Gantt chart. The separation of milestone timelines provides a clear overview of milestone scheduling and time distribution over tasks. Some factors have affected the selection of task durations. As a result, some tasks have a longer duration than others due to task complexity, exams, and assignments in other courses.
 
