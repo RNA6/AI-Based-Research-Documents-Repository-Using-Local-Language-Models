@@ -111,7 +111,7 @@ Scientific research documents convey important data both in their written form a
   \acro{MAE}{mean absolute error}
   \acro{MDA}{Materials Database Agent}
   \acro{MIP}{Multimodal Ingestion Pipeline}
-  \acro{MQA}{multimodal QA}
+  \acro{MQA}{multimodal questions and answer}
   \acro{nDCG@5}{normalized discounted cumulative gain at 5}
   \acro{OCR}{Optical Character Recognition}
   \acro{OLAP}{Online Analytical Processing}
@@ -121,7 +121,7 @@ Scientific research documents convey important data both in their written form a
   \acro{RCG}{representation compression via generation}
   \acro{RCR}{representation compression via retrieval}
   \acro{RRF}{Reciprocal Rank Fusion} 
-  \acro{TQA}{text-only QA} 
+  \acro{TQA}{text-only questions and answer} 
   \acro{VLM}{Vision Language Model}
   \acro{VQA}{visual questions and answer}
   % \acro{VQA}{vision-only QA}
@@ -206,7 +206,7 @@ Tanaka et al. \cite{Tanaka2025VDocRAGRG} (2025) developed a new \ac{RAG} framewo
 
 Tanaka et al. \cite{Tanaka2025VDocRAGRG} introduced OpenDocVQA, which is a collection of refined \ac{VQA} datasets containing visually rich documents, including tables, slides, charts, webpages, infographics. The evaluation of models is done with both single-pool and all-pool settings. The single-pool setting specifies that documents are retrieved from each dataset separately, while the all-pool setting requires retrieving documents from all datasets. Retrieval performance is evaluated using \ac{nDCG@5}, which measures the quality of the top 5 retrieved results. VDocRetriever achieved \ac{nDCG@5} scores of up to 86.0 in the single-pool setting and 76.4 in the all-pool setting. VDocRAG outperformed text-based \ac{RAG} across all datasets used for evaluation. For example, text-based \ac{RAG} achieved 28.0\% relaxed accuracy on ChartQA in single-pool settings, while VDocRAG achieved 52.0\%. The results demonstrate that representing documents directly as images enhances the performance of question answering over visually rich documents.\\
 
-Dong et al. \cite{Chen2026SciMDRAS} (2026) developed a new system called Doc-Researcher for answering complex questions over collection of documents containing text with figures, tables, charts, and other elements \cite{Chen2026SciMDRAS}. The methodology is divided into two stages. The first stage is the offline stage or deep document parsing and indexing. It applies layout-aware parsing to each document for extracting document’s elements, such as text, tables, charts, figures, and equations. Each element is labeled with its layout type with a bounding box as shown in Figure~\ref{fig:layout-aware_chunking}. Then, a one-time textual conversion is performed on visual content. Qwen2.5-VL is a large vision-language model, it was used for generating overall summaries and detailed descriptions of figures and tables. Parsing is done to avoid repeatedly interpreting the same content for every question.
+Dong et al. \cite{Dong2026DocResearcherAU} (2026) developed a new system called Doc-Researcher for answering complex questions over collection of documents containing text with figures, tables, charts, and other elements. The methodology is divided into two stages. The first stage is the offline stage or deep document parsing and indexing. It applies layout-aware parsing to each document for extracting document’s elements, such as text, tables, charts, figures, and equations. Each element is labeled with its layout type with a bounding box as shown in Figure~\ref{fig:layout-aware_chunking}. Then, a one-time textual conversion is performed on visual content. Qwen2.5-VL is a large vision-language model, it was used for generating overall summaries and detailed descriptions of figures and tables. Parsing is done to avoid repeatedly interpreting the same content for every question.
 
 \begin{figure}[H]
 \centering
