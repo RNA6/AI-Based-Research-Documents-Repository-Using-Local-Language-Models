@@ -98,14 +98,33 @@ Scientific research documents convey important data both in their written form a
 \begin{acronym}[123456]  
   \acro{API}{Application Programming Interface} 
   \acro{AI}{Artificial Intelligence}
+  \acro{ASR}{Automatic Speech Recognition}
   \acro{BM25}{Best Matching 25}
+  \acro{CCA}{complex concentrated alloys}
+  \acro{FAISS}{Facebook AI Similarity Search}
+  \acro{FTE}{full-time equivalent}
+  \acro{HEA}{high entropy alloys}
+  \acro{HITL}{Human-in-the-Loop}
   \acro{IR}{Information Retrieval} 
   \acro{LLM}{Large Language Model}
+  \acro{LVLMs}{large vision language models}
+  \acro{MAE}{mean absolute error}
   \acro{MDA}{Materials Database Agent}
+  \acro{MIP}{Multimodal Ingestion Pipeline}
+  \acro{MQA}{multimodal QA}
+  \acro{nDCG@5}{normalized discounted cumulative gain at 5}
   \acro{OCR}{Optical Character Recognition}
+  \acro{OLAP}{Online Analytical Processing}
+  \acro{PFTFI}{Fine Tuning with Feedback Inheritance}
+  \acro{QA}{question-answering}
   \acro{RAG}{Retrieval Augmented Generation}
-  \acro{RRF}{Reciprocal Rank Fusion}  
+  \acro{RCG}{representation compression via generation}
+  \acro{RCR}{representation compression via retrieval}
+  \acro{RRF}{Reciprocal Rank Fusion} 
+  \acro{TQA}{text-only QA} 
   \acro{VLM}{Vision Language Model}
+  \acro{VQA}{visual questions and answer}
+  % \acro{VQA}{vision-only QA}
 \end{acronym}
 
 %% ----------------------------- Main Matter -----------------------------
@@ -181,6 +200,102 @@ The expected outputs include the delivery of a functional web-based research rep
 
 \cleardoublepage
 \section{Literature Review}
+In this section, we will analyze some previous studies that have been done in the field of multimodal document research. We will discuss important aspects of each study including the methodology, datasets if any, and final results. We have collected the most relevant researches to our topic to identify their research gaps that will help us to build our project.\\
+
+Tanaka et al. \cite{Tanaka2025VDocRAGRG} (2025) developed a new \ac{RAG} framework, VDocRAG, which answers questions over visually rich documents. Unlike text-based \ac{RAG}, VDocRAG treats the whole document as an image instead of converting it completely to text. The framework consists of two main components. First, VDocRetriever is responsible for retrieving relevant document images. Second, VDocGenerator is responsible for generating the answers based on the retrieved document images. To improve visual document retrieval process, Tanaka et al. \cite{Tanaka2025VDocRAGRG} adopted pre-trained \ac{LVLMs} and introduced two self-supervised pre-training tasks. First, \ac{RCR} associates document images with their \ac{OCR} text. Second, \ac{RCG} trains the model on reconstructing the \ac{OCR} tokens from the visual representations.\\
+
+Tanaka et al. \cite{Tanaka2025VDocRAGRG} introduced OpenDocVQA, which is a collection of refined \ac{VQA} datasets containing visually rich documents, including tables, slides, charts, webpages, infographics. The evaluation of models is done with both single-pool and all-pool settings. The single-pool setting specifies that documents are retrieved from each dataset separately, while the all-pool setting requires retrieving documents from all datasets. Retrieval performance is evaluated using \ac{nDCG@5}, which measures the quality of the top 5 retrieved results. VDocRetriever achieved \ac{nDCG@5} scores of up to 86.0 in the single-pool setting and 76.4 in the all-pool setting. VDocRAG outperformed text-based \ac{RAG} across all datasets used for evaluation. For example, text-based \ac{RAG} achieved 28.0\% relaxed accuracy on ChartQA in single-pool settings, while VDocRAG achieved 52.0\%. The results demonstrate that representing documents directly as images enhances the performance of question answering over visually rich documents.\\
+
+Dong et al. \cite{Chen2026SciMDRAS} (2026) developed a new system called Doc-Researcher for answering complex questions over collection of documents containing text with figures, tables, charts, and other elements \cite{Chen2026SciMDRAS}. The methodology is divided into two stages. The first stage is the offline stage or deep document parsing and indexing. It applies layout-aware parsing to each document for extracting document’s elements, such as text, tables, charts, figures, and equations. Each element is labeled with its layout type with a bounding box as shown in Figure~\ref{fig:layout-aware_chunking}. Then, a one-time textual conversion is performed on visual content. Qwen2.5-VL is a large vision-language model, it was used for generating overall summaries and detailed descriptions of figures and tables. Parsing is done to avoid repeatedly interpreting the same content for every question.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{layout-aware chunking.png}
+\caption{Overview of layout-aware chunking process.}
+\label{fig:layout-aware_chunking}
+\end{figure}
+
+The second stage of the methodology is the online stage or Doc-Researcher framework for multimodal deep research. It organizes the research process into four roles. First, the planner divides the query into sub-queries Second, the searcher retrieves the relevant documents identified by planner. Third, the refiner removes duplicates and assesses whether the collected evidence is sufficient and initiates additional retrievals when necessary. Fourth, the reporter generates the answer to the question by combining the collected evidence alongside the citation metadata. Doc-Research has achieved an overall answer accuracy of 50.6\%, While the hybrid retrieval, which combines text-only retrieval and vision-only retrieval, achieved 42.4 - 50.6\% accuracy, which outperforms other retrieval techniques by 3 - 5\%.\\
+
+Gosmar and Zenezini \cite{Gosmar2026MADPAM} (2026) introduced MADP, a multiagent architecture designed to automate enterprise document processing by integrating deep learning for classification and analysis with \ac{LLM} for data mining, while ensuring high accuracy through selective human verification. The methodology comprises five sequential modules: a Classifier Agent utilizing a ResNet-18 CNN to identify document types and suppliers; a Splitter Agent to separate logical units in multi-page documents; a Parser Agent using the Docling library to convert formats to Markdown, thereby reducing noise and tokens; an Extraction Agent employing \ac{LLM} with specific prompts to deduce JSON information; and a Validator Agent applying a novel \ac{PFTFI} mechanism for post-processing. This pipeline is supplemented by a \ac{HITL} interface, where human moderators correct extracted metadata.\\
+
+Evaluated using document-level accuracy, field-level F1 scores, and processing time, the system was tested on a dataset of 955 multilingual (Italian, English, German, French, and Arabic) documents from over 50 heterogeneous suppliers, alongside a 100-document stratified subset for ablation studies and a projected scenario of 100,000 annual invoices. In production, the system achieved a 97.0\% full automation rate, requiring non-\ac{AI} intervention for only 3\% of documents. The ablation study showed that MADP with \ac{HITL} supervision reached a 98.5\% document-level accuracy, with the Parser Agent alone improving accuracy by 17.5 percentage points. Model evaluations revealed that Mistral-Small-3.2 achieved the highest F1 score (92.9\%), while DeepSeek-OCR-Regolo offered the fastest inference time. Scaling to 100,000 invoices annually reduces \ac{FTE} labor requirements by nearly 70\%, and the hybrid \ac{AI}+\ac{HITL} approach significantly boosts sustainability by cutting CO2 emissions and energy consumption by 69\%, and water usage by 63\% compared to traditional manual processing.\\
+
+Chandrasekhar et al. \cite{Chandrasekhar2026MaterialDA} (2026) introduced the \ac{MDA}, a multi-agent system architecture designed to automate the extraction of structured data from materials science literature by converting research PDFs into unified tabular databases using Multimodal \ac{LLM} and parallel processing. The \ac{MDA} methodology comprises four sequential stages: an input and extraction stage that processes PDFs using the MCP model and the marker-pdf tool to generate Markdown files for text and tables, and JPEG images for graphs; a data decomposition stage that organizes outputs into local subfolders per paper to preserve multimedia context; a parallel processing stage where a main agent spawns independent "doc-writer" sub-agents to synchronously read subfolders and extract material parameters into structured JSON files; and a compilation stage where a "csv-writer" agent unifies the JSON files into a single CSV database. The system is prompt-driven and incorporates \ac{HITL} supervision for guidance and verification.\\
+
+The system was evaluated using two experimental MeltpoolNet manufacturing kits containing 789 rows of process parameters and material properties, alongside a dataset of \ac{HEA} and \ac{CCA} comprising 366 rows of mechanical properties embedded within graphs, diagrams, and stress-strain curves rather than regular text. Results demonstrated that \ac{MDA} is a highly scalable solution with performance varying by data type. For the text and table-rich MeltpoolNet dataset, the GLM 5V Turbo model achieved the highest F1 scores, while Qwen-3.5 recorded the lowest \ac{MAE} for melting temperature. Conversely, for the graph-heavy \ac{HEA}/\ac{CCA} dataset, Claude Opus 4.6 outperformed other models by accurately reproducing mechanical properties with minimal errors, whereas GPT Series models exhibited larger errors. Ultimately, the GLM 5V Turbo model was identified as the most balanced base model for handling diverse data formats.\\
+
+A. R and R. Dk \cite{R2026DOCGA} (2026) proposed DOC GPT, an offline document-based chatbot that answers user questions according to uploaded PDF documents, without using public \ac{API} services. The methodology is based on \ac{RAG} and consists of the following operation sequence. Initially, a PDF file is uploaded by the user, and information is extracted from the PDF file using \ac{OLAP} and \ac{OCR}, then the information is divided into chunks while retaining context. Third, these chunks are encoded into semantic vectors via Sentence Transformers and saved in the vector DB (e.g., \ac{FAISS}, Chroma). Fourth, in the case of user's question the system performs a semantic similarity search and reranks of the most relevant chunks. Fifth, this context is passed to a local \ac{LLM} via Ollama (Llama, Mistral, etc.) to produce grounded answers. Sixth, the generated answer is returned to the frontend and shown to the user. The use of local machines allows the system to maintain document privacy and operate offline, while also enabling web search when necessity.\\
+
+To perform the system evaluation, two major datasets were utilized: DocVQA and the ArXiv Papers Dataset. DocVQA contains a collection of thousands of document images such as scans of reports, letters, and multi-column forms accompanied by the corresponding natural-language questions and ground-truth answers. It was used to evaluate the ability of the system's work with complex layouts, scans, visual elements, and \ac{OCR} text. The second dataset, the ArXiv Papers Dataset, comprises a large set of scientific papers related to various research areas. This dataset helped to test the ability of the system's work with long documents, complex technical language, text chunks, and semantic search. Based on the reported results, the system demonstrated very good response accuracy and did not hallucinate, as it was strongly grounded in the locally retrieved document contents. Thanks to the combination of \ac{FAISS} vector search and reranking, it was possible to provide high-precision document retrieval, while \ac{OCR} worked successfully with complex, scanned, and multicolored document layouts. Ollama facilitated the entire process of work locally and offline.\\
+
+Ahamed et al. \cite{AlthafAhamed2026AMA} (2026) proposed "A Multimodal and Multilingual Offline Retrieval-Augmented Generation System Using Local \ac{LLM}," an approach that is offline and privacy-preserving for deploying \ac{RAG}-based systems without using any \ac{API} or internet connection. This approach works on the \ac{MIP} framework , which accepts various inputs like PDFs, scanned documents, images, and audio recordings. Digital PDF inputs are converted to text using PyMuPDF. Scanned documents and images are processed using Tesseract \ac{OCR}. Audio recordings are transcribed using \ac{ASR}. The text obtained from different types of inputs is further segmented into small fragments, and dense embeddings are created. A Hybrid Search method performs both keyword-based retrieval and dense retrieval of the most semantically similar content using a combination of \ac{BM25} and ChromaDB. The retrieved results are merged, ranked using \ac{RRF}, and the obtained context is passed as input to the local Mistral-7B through Ollama to get citation-backed responses. As illustrated in Figure 3, Fusion-Seek implements a method based on the functioning of four different layers, namely multimodal input, text extraction, chunking, embedding creation, hybrid retrieval, and finally, response generation using a local \ac{LLM}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{Fusion-Seek.png}
+\caption{Fusion-Seek: Four-Layer End-to-End System Architecture}
+\label{fig:Fusion-Seek}
+\end{figure}
+
+This work was implemented and evaluated based on technologies such as PyMuPDF, Tesseract \ac{OCR}, \ac{ASR}, \ac{BM25}, ChromaDB, Ollama, and Mistral-7B. The proposed approach can process various types of documents such as technical manuals, policy documents, scientific papers, scans and images, and meeting transcripts. These experiments showed that the combination of \ac{BM25} keyword search, dense vectors, and \ac{RRF} can increase the quality of contextual search and decrease hallucinations in contrast to vector-based-only search. Using Ollama and Mistral-7B proved that it is possible to generate citation-grounded responses completely offline.\\
+
+Chen et al. \cite{Chen2026SciMDRAS} (2026) introduced SciMDR, which is a \ac{QA} dataset designed to train models for understanding multimodal content within research documents, such as text, figures, and tables. It consists of 304,461 \ac{QA} pairs derived from approximately 20,000 research papers; the \ac{QA} pairs are divided into three types: \ac{TQA} pairs, vision-only QA pairs (\ac{VQA}), and \ac{MQA} pairs that require information from both text and visuals. The dataset was constructed in two stages. First, research papers were parsed with MinerU2.5 \ac{OCR} to extract text, captions, figures, and tables. The text information was then fed to GPT-5.1 to extract discrete claims from the text. These claims were used to guide the generation of questions. By supplying the claims, the model generates questions whose answers correspond to the provided claims. Then, claims with their associated visuals are used to generate \ac{MQA} pairs, while text-only claims are used to generate \ac{TQA} pairs. \ac{VQA} pairs are generated separately by providing visual information to the model.\\
+
+Second, the generated \ac{QA} pairs are used with their original document context to support model learning to locate relevant evidence and reason over it when answering questions. Chen et al. \cite{Chen2026SciMDRAS} also introduced the SciMDR-Eval benchmark, which was manually created from 300 research papers. It consists of 907 \ac{QA} pairs, where the questions require models to search for and reason over information available in the full document, such as text, figures, tables, or a combination of them. The benchmark evaluates the model’s ability to locate relevant evidence, reason over it, and generate correct answers. The performance of models fine-tuned on SciMDR was evaluated on various benchmarks, such as ChartQA, CharXiv, SPIQA, and SciMDR-Eval. The results showed that fine-tuning the Qwen2.5-VL-7B model on the SciMDR training dataset increased its SciMDR-Eval accuracy from 19.8\% to 49.1\%, an improvement of 29.3 percentage points.\\
+
+The summary of literature review is represented in Table~\ref{tab:Literature}, which outlines the main aspects of each research paper, including the methods used, datasets applied, and achieved performance. Following the summary table, next chapter will discuss the proposed methodology and demonstrate how it can overcome previous studies challenges.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|>{\raggedright\arraybackslash}p{0.14\textwidth}|>{\raggedright\arraybackslash}p{0.23\textwidth}|>{\raggedright\arraybackslash}p{0.23\textwidth}|>{\raggedright\arraybackslash}p{0.26\textwidth}|}
+        \hline
+        \textbf{Authors} & \textbf{Method} & \textbf{Dataset} & \textbf{Performance} \\
+        \hline
+        \textbf{Tanaka et al.} &
+        VDocRetriever, VDocGenerator, \ac{RCR}, \ac{RCG} &
+        OpenDocVQA &
+        Up to 86.0 \ac{nDCG@5} for retrieval, 52.0\% relaxed accuracy on ChartQA for generation \\
+        \hline
+        \textbf{Dong et al.} &
+        Deep Document Parsing, Multimodal Deep Research, Hybrid Retrieval &
+        M4DocBench for evaluation &
+        50.6\% answer accuracy on M4DocBench and 3.4x higher than state-of-the-art baselines \\
+        \hline
+        \textbf{Gosmar and Zenezini} &
+        MADP, \ac{HITL}, \ac{PFTFI} &
+        955 production documents; 100-document evaluation subset &
+        98.5\% accuracy with \ac{HITL}, compared with 85\% for pure \ac{AI} automation \\
+        \hline
+        \textbf{Chandrasekhar et al.} &
+        \ac{MDA}, MarkerPDF &
+        MeltpoolNet and \ac{HEA}/\ac{CCA} databases for evaluation &
+        Up to 75.00\% F1 for figure-derived depth-of-MeltPool extraction \\
+        \hline
+        \textbf{R. and Dk.} &
+        \ac{RAG}, \ac{OCR} &
+        DocVQA and arXiv Papers Dataset for evaluation &
+        Improved semantic retrieval accuracy; no numerical accuracy reported \\
+        \hline
+        \textbf{Ahamed et al.} &
+        \ac{MIP}, \ac{OCR}, \ac{ASR}, Hybrid Search (\ac{BM25} and semantic search), Ollama &
+        Technical manuals, legal/policy documents, research papers, images, scanned documents, audio &
+        87.4\% Recall@10, 84.9\% Precision@10, 0.82 MRR with hybrid \ac{RRF} \\
+        \hline
+        \textbf{Z. Chen et al.} &
+        Scientific multimodal dataset construction &
+        SciMDR for training and SciMDR-Eval for evaluation &
+        49.1\% accuracy on SciMDR-Eval when Qwen2.5-VL-7B is fine-tuned on SciMDR, which is 29.3\% higher \\
+        \hline
+        \textbf{Proposed Strategy} &
+        A combination of Deep Document Parsing, Hybrid Search (\ac{BM25} and semantic search), \ac{RAG}, and Hybrid Retrieval &
+        SciMDR~\cite{Chen2026SciMDRAS} &
+        -- \\
+        \hline
+    \end{tabular}
+    \caption{Summary of literature review}
+    \label{tab:Literature}
+\end{table}
 
 \cleardoublepage
 \section{Methodology}
