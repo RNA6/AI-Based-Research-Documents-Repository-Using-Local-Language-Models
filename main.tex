@@ -70,7 +70,7 @@
 \section*{Abstract}
 \addcontentsline{toc}{section}{Abstract}
 
-Scientific research documents convey important data both in their written form and through various graphical features, such as intricate figures, tables, and charts. Yet most conventional Retrieval Augmented Generation (RAG) systems focus mainly on text, leading to a substantial loss of the key information contained in these visual elements. Moreover, existing AI-based document processing systems place a great deal of reliance on cloud-based Application Programming Interface (API), thereby creating serious risks in the areas of data privacy, protection of intellectual property, and the general reliability of the system. To overcome these important limitations, this project presents a thorough and privacy-preserving solution that uses AI to create a local multimodal repository of research documents. The system in question is intended to function completely offline, thus keeping sensitive academic and proprietary data secure while simultaneously carrying out a comprehensive analysis of both the text and the visual parts of scientific literature. In technical terms, the system functions by using deep layout-aware parsing and carries out separate extraction procedures for the textual and visual elements to maintain the original document structure. For the purpose of information retrieval, the architecture makes use of an advanced multimodal method that combines hybrid text search-this involving both keyword matching and dense semantic analysis-with independent visual search operations, the two different streams being smoothly integrated by means of the Reciprocal Rank Fusion (RRF) algorithm. To produce responses, the system uses a Vision‑Language Model (VLM) that is hosted locally and fine‑tuned on scientific multimodal datasets. This approach removes the need for any cloud services completely. The project contains three components. First, a functional web‑based repository makes document management easy. Second a powerful local AI processing pipeline guarantees offline operation. Third a thorough performance evaluation checks both retrieval and question‑answering accuracy. Finally, the project delivers an intelligent environment that allows researchers and educational institutions to query and understand complex scientific literature efficiently while keeping full control of their sensitive data.
+Scientific research documents convey important data both in their written form and through various graphical features, such as intricate figures, tables, and charts. Yet most conventional Retrieval Augmented Generation (RAG) systems focus mainly on text, leading to a substantial loss of the key information contained in these visual elements. Moreover, existing Artificial Intelligence (AI)-based document processing systems place a great deal of reliance on cloud-based Application Programming Interface (API), thereby creating serious risks in the areas of data privacy, protection of intellectual property, and the general reliability of the system. To overcome these important limitations, this project presents a thorough and privacy-preserving solution that uses AI to create a local multimodal repository of research documents. The system in question is intended to function completely offline, thus keeping sensitive academic and proprietary data secure while simultaneously carrying out a comprehensive analysis of both the text and the visual parts of scientific literature. In technical terms, the system functions by using deep layout-aware parsing and carries out separate extraction procedures for the textual and visual elements to maintain the original document structure. For the purpose of information retrieval, the architecture makes use of an advanced multimodal method that combines hybrid text search-this involving both keyword matching and dense semantic analysis-with independent visual search operations, the two different streams being smoothly integrated by means of the Reciprocal Rank Fusion (RRF) algorithm. To produce responses, the system uses a Vision‑Language Model (VLM) that is hosted locally and fine‑tuned on scientific multimodal datasets. This approach removes the need for any cloud services completely. The project contains three components. First, a functional web‑based repository makes document management easy. Second a powerful local AI processing pipeline guarantees offline operation. Third a thorough performance evaluation checks both retrieval and question‑answering accuracy. Finally, the project delivers an intelligent environment that allows researchers and educational institutions to query and understand complex scientific literature efficiently while keeping full control of their sensitive data.
 
 
 \vspace{4mm}
@@ -150,13 +150,13 @@ In the AI-Based Research Documents Repository Using \ac{LLM}, the process of \ac
 \acp{LLM} are sophisticated deep learning systems that are intended to understand, produce, and manipulate human language. By using massive amounts of textual data for training, these models apply transformer architectures to pick up the complex semantic and contextual relationships present in the data \cite{Zhao2023ASO}. \acp{LLM} are usually divided into closed-source ones, for example GPT-4, and open-source ones, such as Llama and Qwen. In academic and secure settings, open-source models are becoming more popular because of their cost efficiency, better data privacy, and the fact that they can run on local infrastructure. Although they have strong language capabilities, \acp{LLM} are limited by their fixed training data, potentially causing knowledge gaps or hallucinations \cite{Ji2022SurveyOH}. To overcome these drawbacks and increase factual accuracy, current \ac{AI} systems often combine \acp{LLM} with external knowledge retrieval systems, such as \ac{RAG} \cite{Huang2024ASO}, so that the models can create responses that are properly grounded in the context.
 
 \subsubsection{Vision Language Models}
-\acp{VLM} are multimodal AI models that combine visual and linguistic capabilities through the integration of data from images and videos with natural language. Such models are trained using methods like masked modeling, which helps predict missing parts of an image or text, as well as image-text matching, which enables the identification of an association between a given description and an image. As shown in Figure 1, an important step in \acp{VLM} is embedding, where textual and visual inputs are processed by text and vision encoders and transformed into text embeddings and image embeddings. These embeddings provide numerical representations of the input data, allowing the model to capture and relate information from both visual and textual modalities. These techniques have resulted in the emergence of state-of-the-art models such as Gemini, OpenFlamingo, and Goldfish \cite{Bordes2024AnIT}, as well as model architectures like unified multimodal models (Chameleon), two-tower models (CLIP), and encoder-decoder models (BLIP-2), as shown below in Figure~\ref{fig:VLM-architecture} \cite{Ray2024ERVQAAD}. The figure below represents the \ac{VLM} architecture used to illustrate two commonly used \ac{VLM} techniques. In both methods, visual and text inputs are mapped into visual and text embeddings, respectively. This enables the \ac{VLM} to convert the information into numeric form.
+\acp{VLM} are multimodal AI models that combine visual and linguistic capabilities through the integration of data from images and videos with natural language. Such models are trained using methods like masked modeling, which helps predict missing parts of an image or text, as well as image-text matching, which enables the identification of an association between a given description and an image. As shown in Figure~\ref{fig:VLM-architecture}, an important step in \acp{VLM} is embedding, where textual and visual inputs are processed by text and vision encoders and transformed into text embeddings and image embeddings. These embeddings provide numerical representations of the input data, allowing the model to capture and relate information from both visual and textual modalities. These techniques have resulted in the emergence of state-of-the-art models such as Gemini, OpenFlamingo, and Goldfish \cite{Bordes2024AnIT}, as well as model architectures like unified multimodal models (Chameleon), two-tower models (CLIP), and encoder-decoder models (BLIP-2) \cite{Ray2024ERVQAAD}, as shown below in Figure~\ref{fig:VLM-architecture}. The figure below represents the \ac{VLM} architecture used to illustrate two commonly used \ac{VLM} techniques. In both methods, visual and text inputs are mapped into visual and text embeddings, respectively. This enables the \ac{VLM} to convert the information into numeric form.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{VLM Architecture.png}
-\caption{Vision Language Model \acs{VLM}}
-\label{fig:VLM-architecture}
+\caption[Architectural components of modern \acsp{VLM}]{Architectural components of modern \acp{VLM} \cite{Li2025ASO}.}
+    \label{fig:VLM-architecture}
 \end{figure}
 
 \subsubsection{Retrieval Augmented Generation}
@@ -212,7 +212,7 @@ Dong et al. \cite{Dong2026DocResearcherAU} (2026) developed a new system called 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{layout-aware chunking.png}
-\caption{Overview of layout-aware chunking process.}
+\caption[Overview of layout-aware chunking process]{Overview of layout-aware chunking process \cite{Dong2026DocResearcherAU}.}
 \label{fig:layout-aware_chunking}
 \end{figure}
 
@@ -235,7 +235,7 @@ Ahamed et al. \cite{AlthafAhamed2026AMA} (2026) proposed "A Multimodal and Multi
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5\textwidth]{Fusion-Seek.png}
-\caption{Fusion-Seek: Four-Layer End-to-End System Architecture}
+\caption[Fusion-Seek: Four-Layer End-to-End System Architecture]{Fusion-Seek: Four-Layer End-to-End System Architecture \cite{AlthafAhamed2026AMA}.}
 \label{fig:Fusion-Seek}
 \end{figure}
 
@@ -337,7 +337,7 @@ Based on the methodologies discussed in previous studies, we are proposing two p
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{RAG pipelines representation.png}
-\caption{Alternative and Proposed \acs{RAG} pipelines representation.}
+\caption[Alternative and Proposed \acs{RAG} pipelines representation]{Alternative and Proposed \acs{RAG} pipelines representation.}
 \label{fig:RAG-pipelines-representation}
 \end{figure}
 
@@ -392,8 +392,8 @@ Our project aims to accomplish several objectives; therefore, a clear overview o
 \subsubsection{Hardware Requirements}
 \begin{enumerate}
   \item Processor (O1, O2, O4): The system shall run on a computer featuring a modern multi-core processor, such as the Intel Core i7, AMD Ryzen 7, or a similar one, to ensure document processing, indexing, and general functioning of the system.
-  \item Graphics Processing Unit (O2, O3, O4): The system shall be provided with a suitable \ac{GPU} with at least 8 GB of VRAM for fast visual document processing, multimodal inference, and fine-tuning. Depending on the chosen fine-tuning strategy, additional \ac{GPU} memory may be required.
-  \item Random Access Memory (O2, O3, O4): The system shall have no less than 32 GB of RAM to allow for the parallel operation of document processing libraries, information retrieval modules, and locally stored \ac{AI} models.
+  \item Graphics Processing Unit (O2, O3, O4): The system shall be provided with a suitable \ac{GPU} with at least 8 to 12 GB of VRAM for fast visual document processing, multimodal inference, and fine-tuning. Depending on the chosen fine-tuning strategy, additional \ac{GPU} memory may be required.
+  \item Random Access Memory (O2, O3, O4): The system shall have no less than 8 to 12 GB of RAM to allow for the parallel operation of document processing libraries, information retrieval modules, and locally stored \ac{AI} models.
   \item Storage (O1, O2, O3): The system shall have no less than 100 GB of SSD storage to store research documents, extracted data, vector databases, local \ac{AI} models, and associated files
 \end{enumerate}
 
@@ -436,14 +436,14 @@ Milestone-1 Submission & All Members & October 18, 2026 & October 22, 2026 & 5 d
 Milestone-1 Presentation & All Members & October 25, 2026 & October 29, 2026 & 5 days \\ 
 \hline
 \end{tabular}
-\caption{Milestone 1 Task Schedule}
+\caption[Milestone 1 Task Schedule]{Milestone 1 Task Schedule.}
 \label{tab:milestone1_schedule}
 \end{table}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{Milestone 1 Gantt chart.jpg}
-\caption{Milestone 1 Gantt chart}
+\caption[Milestone 1 Gantt chart]{Milestone 1 Gantt chart.}
 \label{fig:milestone1_gannt_chart}
 \end{figure}
 
@@ -470,14 +470,14 @@ Milestone-2 Submission & All Members & December 6, 2026 & December 10, 2026 & 5 
 Milestone-2 Presentation & All Members & December 13, 2026 & December 17, 2026 & 5 days \\ 
 \hline
 \end{tabular}
-\caption{Milestone 2 Task  Schedule}
+\caption[Milestone 2 Task Schedule]{Milestone 2 Task Schedule.}
 \label{tab:milestone2_schedule}
 \end{table}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{Milestone 2 Gantt chart.jpg}
-\caption{Milestone 2 Gantt chart}
+\caption[Milestone 2 Gantt chart]{Milestone 2 Gantt chart.}
 \label{fig:milestone2_gannt_chart}
 \end{figure}
 
@@ -492,181 +492,5 @@ Milestone-2 Presentation & All Members & December 13, 2026 & December 17, 2026 &
 %% ----------------------------- AppendixA -----------------------------
 % \section*{Appendix A: Additional Materials}
 % \addcontentsline{toc}{section}{Appendix A: Additional Materials}
-
-% The following equation is provided only as an illustrative example to demonstrate how to include a general numbered equation in this report template.
-
-% \begin{equation}
-% \label{eq:general-example}
-% y = ax + b
-% \end{equation}
-
-% \begin{subequations}
-% \label{eq:subequations-example}
-% \begin{align}
-% y &= ax + b \label{eq:subeq-a}\\
-% x &= \frac{y-b}{a} \label{eq:subeq-b}\\
-% x^{10} &= y - b \label{eq:subeq-c}\\
-% f^{(k)}(x) &\neq f_i(x)
-% \end{align}
-% \end{subequations}
-
-% Table~\ref{tab:general-comparison} is included only as an example to demonstrate table formatting in this report template.
-
-% \begin{table}[H]
-% \centering
-% \caption{General comparison between existing solutions and the proposed system.}
-% \label{tab:general-comparison}
-% \begin{tabular}{|l|c|c|}
-% \hline
-% \textbf{Criteria} & \textbf{Existing Solutions} & \textbf{Proposed System} \\
-% \hline
-% Ease of use & Moderate & High \\
-% \hline
-% Accuracy of results & Moderate & Improved \\
-% \hline
-% User interface clarity & Basic & Enhanced \\
-% \hline
-% Automation level & Limited & High \\
-% \hline
-% Reliability & Moderate & High \\
-% \hline
-% Scalability & Limited & Good \\
-% \hline
-% Reporting and documentation & Basic & Detailed \\
-% \hline
-% \end{tabular}
-% \end{table}
-
-% The following table is provided only as an illustrative example to demonstrate how to include a bordered table with \textbf{merged column headers} in this report template (Table~\ref{tab:general-comparison-merged}).
-
-% \begin{table}[H]
-% \centering
-% \caption{Comparison of system characteristics.}
-% \label{tab:general-comparison-merged}
-% \begin{tabular}{|l|c|c|}
-% \hline
-% \textbf{Feature} & \multicolumn{2}{c|}{\textbf{System Type}} \\
-% \cline{2-3}
-%  & \textbf{Traditional Approach} & \textbf{Proposed Approach} \\
-% \hline
-% User experience & Average & Improved \\
-% \hline
-% System flexibility & Low & High \\
-% \hline
-% Maintenance effort & High & Lower \\
-% \hline
-% Processing speed & Moderate & Faster \\
-% \hline
-% Overall efficiency & Moderate & High \\
-% \hline
-% \end{tabular}
-% \end{table}
-
-% The following table is provided only as an illustrative example to demonstrate how to include a bordered table with \textbf{merged rows} in this report template (Table~\ref{tab:general-comparison-categories}).
-
-% \begin{table}[H]
-% \centering
-% \caption{General comparison of project features.}
-% \label{tab:general-comparison-categories}
-% \begin{tabular}{|l|l|c|c|}
-% \hline
-% \textbf{Category} & \textbf{Criteria} & \textbf{Existing} & \textbf{Proposed} \\
-% \hline
-% \multirow{2}{*}{Usability}
-% & Ease of use & Medium & High \\
-% \cline{2-4}
-% & Accessibility & Medium & High \\
-% \hline
-% \multirow{2}{*}{Performance}
-% & Reliability & Medium & High \\
-% \cline{2-4}
-% & Response speed & Medium & High \\
-% \hline
-% \multirow{2}{*}{Output Quality}
-% & Report clarity & Basic & Detailed \\
-% \cline{2-4}
-% & Output consistency & Medium & High \\
-% \hline
-% \end{tabular}
-% \end{table}
-
-% The following table is provided only as an illustrative example to demonstrate how to include a bordered table with \textbf{merged rows and merged column headers} in this report template (Table~\ref{tab:merged-rows-cols-example}).
-
-% \begin{table}[H]
-% \centering
-% \caption{Illustrative comparison table (example only).}
-% \label{tab:merged-rows-cols-example}
-% \begin{tabular}{|l|l|c|c|}
-% \hline
-% \multirow{2}{*}{\textbf{Category}}
-% & \multirow{2}{*}{\textbf{Criteria}}
-% & \multicolumn{2}{c|}{\textbf{Comparison}} \\
-% \cline{3-4}
-%  &  & \textbf{Option A} & \textbf{Option B} \\
-% \hline
-% \multirow{2}{*}{Usability}
-% & Ease of use & High & Medium \\
-% \cline{2-4}
-% & Clarity of interface & High & Medium \\
-% \hline
-% \multirow{2}{*}{Quality}
-% & Reliability & High & Medium \\
-% \cline{2-4}
-% & Output clarity & High & Medium \\
-% \hline
-% \multirow{2}{*}{Efficiency}
-% & Time required & Low & Medium \\
-% \cline{2-4}
-% & Effort required & Low & Medium \\
-% \hline
-% \end{tabular}
-% \end{table}
-
-% The following code listing is provided only as an illustrative example to demonstrate how to include a numbered and captioned code excerpt in this report template (Listing~\ref{lst:example}).
-
-% \begin{lstlisting}[language=Python, caption={Example function that normalizes an input string.}, label={lst:example}]
-% def normalize(text):
-%     """Return the text in lower case, without leading or trailing spaces."""
-%     return text.strip().lower()
-% \end{lstlisting}
-
-% As shown in Listing~\ref{lst:example}, source code is typeset with line numbers and a caption placed above the excerpt. Set \texttt{language} to the language of your own code, for example \texttt{Java}, \texttt{C}, \texttt{Python}, or \texttt{SQL}. Include only short, meaningful excerpts in the report; complete source files belong in the submitted code archive.
-
-% %% ----------------------------- AppendixB -----------------------------
-% \section*{Appendix B: Project Screenshots}
-% \addcontentsline{toc}{section}{Appendix B: Project Screenshots}
-
-% \begin{figure}[H]
-% \centering
-% \includegraphics[width=0.5\textwidth]{ex.png}
-% \caption{Official CCSIT logo used in this graduation project report.}
-% % \captionof{table}{Official CCSIT logo used in this graduation project report.}
-% \label{fig:ccsit-logo-overall}
-% \end{figure}
-
-% As shown in Figure~\ref{fig:ccsit-logo-overall}, the official CCSIT logo is presented for institutional identification and report branding.
-
-% \begin{figure}[H]
-% \centering
-
-% \begin{subfigure}[b]{0.45\textwidth}
-% \centering
-% \includegraphics[width=0.75\textwidth]{ex.png}
-% \caption{King Faisal University (KFU) logo.}
-% \label{fig:kfu-logo}
-% \end{subfigure}
-% \hfill
-% \begin{subfigure}[b]{0.45\textwidth}
-% \centering
-% \includegraphics[width=0.75\textwidth]{ex.png}
-% \caption{College of Computer Sciences \& Information Technology (CCSIT) logo.}
-% \label{fig:ccsit-logo}
-% \end{subfigure}
-
-% \caption{Institutional logos used for official report branding.}
-% \label{fig:logos}
-% \end{figure}
-
-% Figure~\ref{fig:logos} presents the institutional logos used in this report.
 
 \end{document}
