@@ -1,21 +1,3 @@
-%% =====================================================================
-%% KSA / KFU - CCSIT Graduation Project Report Template (LaTeX2e)
-%% THIS IS THE FILE YOU EDIT.
-%% ---------------------------------------------------------------------
-%% Files in this package:
-%%   ccsit-preamble.tex   fixed layout            -- do not edit
-%%   ccsit-macros.tex     your project details    -- EDIT THIS
-%%   cover.tex            title page
-%%   acknowledgment.tex   your acknowledgment     -- EDIT THIS
-%%   undertaking.tex      signed declaration      -- do not edit the text
-%%   bibliography.bib     your references         -- EDIT THIS
-%%   CCSIT-Logo.png       college logo
-%%   figures/             your images
-%%
-%% Compile with pdfLaTeX; Biber runs between the LaTeX passes:
-%%     pdflatex main.tex / biber main / pdflatex main.tex / pdflatex main.tex
-%% =====================================================================
-
 \documentclass[11pt,a4paper]{report}
 
 \input{ccsit-preamble}
@@ -230,7 +212,7 @@ A. R and R. Dk \cite{R2026DOCGA} (2026) proposed DOC GPT, an offline document-ba
 
 To perform the system evaluation, two major datasets were utilized: DocVQA and the ArXiv Papers Dataset. DocVQA contains a collection of thousands of document images such as scans of reports, letters, and multi-column forms accompanied by the corresponding natural-language questions and ground-truth answers. It was used to evaluate the ability of the system's work with complex layouts, scans, visual elements, and \ac{OCR} text. The second dataset, the ArXiv Papers Dataset, comprises a large set of scientific papers related to various research areas. This dataset helped to test the ability of the system's work with long documents, complex technical language, text chunks, and semantic search. Based on the reported results, the system demonstrated very good response accuracy and did not hallucinate, as it was strongly grounded in the locally retrieved document contents. Thanks to the combination of \ac{FAISS} vector search and reranking, it was possible to provide high-precision document retrieval, while \ac{OCR} worked successfully with complex, scanned, and multicolored document layouts. Ollama facilitated the entire process of work locally and offline.\\
 
-Ahamed et al. \cite{AlthafAhamed2026AMA} (2026) proposed "A Multimodal and Multilingual Offline Retrieval-Augmented Generation System Using Local \ac{LLM}," an approach that is offline and privacy-preserving for deploying \ac{RAG}-based systems without using any \ac{API} or internet connection. This approach works on the \ac{MIP} framework , which accepts various inputs like PDFs, scanned documents, images, and audio recordings. Digital PDF inputs are converted to text using PyMuPDF. Scanned documents and images are processed using Tesseract \ac{OCR}. Audio recordings are transcribed using \ac{ASR}. The text obtained from different types of inputs is further segmented into small fragments, and dense embeddings are created. A Hybrid Search method performs both keyword-based retrieval and dense retrieval of the most semantically similar content using a combination of \ac{BM25} and ChromaDB. The retrieved results are merged, ranked using \ac{RRF}, and the obtained context is passed as input to the local Mistral-7B through Ollama to get citation-backed responses. As illustrated in Figure 3, Fusion-Seek implements a method based on the functioning of four different layers, namely multimodal input, text extraction, chunking, embedding creation, hybrid retrieval, and finally, response generation using a local \ac{LLM}.
+Ahamed et al. \cite{AlthafAhamed2026AMA} (2026) proposed "A Multimodal and Multilingual Offline Retrieval-Augmented Generation System Using Local \ac{LLM}," an approach that is offline and privacy-preserving for deploying \ac{RAG}-based systems without using any \ac{API} or internet connection. This approach works on the \ac{MIP} framework , which accepts various inputs like PDFs, scanned documents, images, and audio recordings. Digital PDF inputs are converted to text using PyMuPDF. Scanned documents and images are processed using Tesseract \ac{OCR}. Audio recordings are transcribed using \ac{ASR}. The text obtained from different types of inputs is further segmented into small fragments, and dense embeddings are created. A Hybrid Search method performs both keyword-based retrieval and dense retrieval of the most semantically similar content using a combination of \ac{BM25} and ChromaDB. The retrieved results are merged, ranked using \ac{RRF}, and the obtained context is passed as input to the local Mistral-7B through Ollama to get citation-backed responses. As illustrated in Figure~\ref{fig:Fusion-Seek}, Fusion-Seek implements a method based on the functioning of four different layers, namely multimodal input, text extraction, chunking, embedding creation, hybrid retrieval, and finally, response generation using a local \ac{LLM}.
 
 \begin{figure}[H]
 \centering
