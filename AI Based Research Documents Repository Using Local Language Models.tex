@@ -101,7 +101,6 @@ Scientific research documents convey important data both in their written form a
   \acro{MQA}{multimodal questions and answer}
   \acro{nDCG@5}{normalized discounted cumulative gain at 5}
   \acro{OCR}{Optical Character Recognition}
-  \acro{OLAP}{Online Analytical Processing}
   \acro{PFTFI}{Fine Tuning with Feedback Inheritance}
   \acro{QA}{question-answering}
   \acro{RAG}{Retrieval Augmented Generation}
@@ -212,7 +211,7 @@ Chandrasekhar et al. \cite{Chandrasekhar2026MaterialDA} (2026) introduced the \a
 
 The system was evaluated using two experimental MeltpoolNet manufacturing kits containing 789 rows of process parameters and material properties, alongside a dataset of \ac{HEA} and \ac{CCA} comprising 366 rows of mechanical properties embedded within graphs, diagrams, and stress-strain curves rather than regular text. Results demonstrated that \ac{MDA} is a highly scalable solution with performance varying by data type. For the text and table-rich MeltpoolNet dataset, the GLM 5V Turbo model achieved the highest F1 scores, while Qwen-3.5 recorded the lowest \ac{MAE} for melting temperature. Conversely, for the graph-heavy \ac{HEA}/\ac{CCA} dataset, Claude Opus 4.6 outperformed other models by accurately reproducing mechanical properties with minimal errors, whereas GPT Series models exhibited larger errors. Ultimately, the GLM 5V Turbo model was identified as the most balanced base model for handling diverse data formats.\\
 
-A. R and R. Dk \cite{R2026DOCGA} (2026) proposed DOC GPT, an offline document-based chatbot that answers user questions according to uploaded PDF documents, without using public \ac{API} services. The methodology is based on \ac{RAG} and consists of the following operation sequence. Initially, a PDF file is uploaded by the user, and information is extracted from the PDF file using \ac{OLAP} and \ac{OCR}, then the information is divided into chunks while retaining context. Third, these chunks are encoded into semantic vectors via Sentence Transformers and saved in the vector DB (e.g., \ac{FAISS}, Chroma). Fourth, in the case of user's question the system performs a semantic similarity search and reranks of the most relevant chunks. Fifth, this context is passed to a local \ac{LLM} via Ollama (Llama, Mistral, etc.) to produce grounded answers. Sixth, the generated answer is returned to the frontend and shown to the user. The use of local machines allows the system to maintain document privacy and operate offline, while also enabling web search when necessity.\\
+A. R and R. Dk \cite{R2026DOCGA} (2026) proposed DOC GPT, an offline document-based chatbot that answers user questions according to uploaded PDF documents, without using public \ac{API} services. The methodology is based on \ac{RAG} and consists of the following operation sequence. Initially, a PDF file is uploaded by the user, and information is extracted from the PDF file using \ac{OCR}, then the information is divided into chunks while retaining context. Third, these chunks are encoded into semantic vectors via Sentence Transformers and saved in the vector DB (e.g., \ac{FAISS}, Chroma). Fourth, in the case of user's question the system performs a semantic similarity search and reranks of the most relevant chunks. Fifth, this context is passed to a local \ac{LLM} via Ollama (Llama, Mistral, etc.) to produce grounded answers. Sixth, the generated answer is returned to the frontend and shown to the user. The use of local machines allows the system to maintain document privacy and operate offline, while also enabling web search when necessity.\\
 
 To perform the system evaluation, two major datasets were utilized: DocVQA and the ArXiv Papers Dataset. DocVQA contains a collection of thousands of document images such as scans of reports, letters, and multi-column forms accompanied by the corresponding natural-language questions and ground-truth answers. It was used to evaluate the ability of the system's work with complex layouts, scans, visual elements, and \ac{OCR} text. The second dataset, the ArXiv Papers Dataset, comprises a large set of scientific papers related to various research areas. This dataset helped to test the ability of the system's work with long documents, complex technical language, text chunks, and semantic search. Based on the reported results, the system demonstrated very good response accuracy and did not hallucinate, as it was strongly grounded in the locally retrieved document contents. Thanks to the combination of \ac{FAISS} vector search and reranking, it was possible to provide high-precision document retrieval, while \ac{OCR} worked successfully with complex, scanned, and multicolored document layouts. Ollama facilitated the entire process of work locally and offline.\\
 
@@ -235,6 +234,7 @@ The summary of literature review is represented in Table~\ref{tab:Literature}, w
 
 \begin{table}[h]
     \centering
+    \caption{Summary of literature review}
     \begin{tabular}{|>{\raggedright\arraybackslash}p{0.14\textwidth}|>{\raggedright\arraybackslash}p{0.23\textwidth}|>{\raggedright\arraybackslash}p{0.23\textwidth}|>{\raggedright\arraybackslash}p{0.26\textwidth}|}
         \hline
         \textbf{Authors} & \textbf{Method} & \textbf{Dataset} & \textbf{Performance} \\
@@ -280,7 +280,6 @@ The summary of literature review is represented in Table~\ref{tab:Literature}, w
         -- \\
         \hline
     \end{tabular}
-    \caption{Summary of literature review}
     \label{tab:Literature}
 \end{table}
 
@@ -401,6 +400,7 @@ This section represents the project milestones timeline. Each milestone is repre
 
 \begin{table}[H]
 \centering
+\caption[Milestone 1 Task Schedule]{Milestone 1 Task Schedule.}
 \begin{tabular}{|p{0.26\textwidth}| p{0.13\textwidth}| p{0.19\textwidth}| p{0.19\textwidth}| p{0.09\textwidth}|}
 \hline
 \textbf{Task} & \textbf{Assigned To} & \textbf{Start Date} & \textbf{End Date} & \textbf{Duration} \\
@@ -422,7 +422,6 @@ Milestone-1 Submission & All Members & October 18, 2026 & October 22, 2026 & 5 d
 Milestone-1 Presentation & All Members & October 25, 2026 & October 29, 2026 & 5 days \\ 
 \hline
 \end{tabular}
-\caption[Milestone 1 Task Schedule]{Milestone 1 Task Schedule.}
 \label{tab:milestone1_schedule}
 \end{table}
 
@@ -435,6 +434,7 @@ Milestone-1 Presentation & All Members & October 25, 2026 & October 29, 2026 & 5
 
 \begin{table}[H]
 \centering
+\caption[Milestone 2 Task Schedule]{Milestone 2 Task Schedule.}
 \begin{tabular}{|p{0.26\textwidth}| p{0.13\textwidth}| p{0.19\textwidth}| p{0.19\textwidth}| p{0.09\textwidth}|}
 \hline
 \textbf{Task} & \textbf{Assigned To} & \textbf{Start Date} & \textbf{End Date} & \textbf{Duration} \\ 
@@ -456,7 +456,6 @@ Milestone-2 Submission & All Members & December 6, 2026 & December 10, 2026 & 5 
 Milestone-2 Presentation & All Members & December 13, 2026 & December 17, 2026 & 5 days \\ 
 \hline
 \end{tabular}
-\caption[Milestone 2 Task Schedule]{Milestone 2 Task Schedule.}
 \label{tab:milestone2_schedule}
 \end{table}
 
